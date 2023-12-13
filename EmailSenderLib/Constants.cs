@@ -9,5 +9,7 @@
         public const string SubjectNotFound = "Не указана тема сообщения";
 
         public const string BodyNotFound = "Не указано тело сообщения";
+
+        public const string SenderName = "Administrator";
     }
 }

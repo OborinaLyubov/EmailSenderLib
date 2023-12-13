@@ -5,7 +5,7 @@ namespace EmailSenderLib
 {
     public class EmailSender
     {
-        public void SendYandex(string recipient, string client, string subject, string body)
+        public static void SendYandex(string recipient, string client, string subject, string body)
         {
             if(recipient == null)
             {
@@ -29,7 +29,7 @@ namespace EmailSenderLib
 
             try
             {
-                var emailSender = new MailAddress(HideData.AdminYandexEmail, "Admin");
+                var emailSender = new MailAddress(HideData.AdminYandexEmail, Constants.SenderName);
                 var emailRecipient = new MailAddress(recipient);
                 var emailMessage = new MailMessage(emailSender, emailRecipient)
                 {
@@ -50,7 +50,7 @@ namespace EmailSenderLib
             }
         }
 
-        public string SendGoogle(string recipient, string client, string subject, string body)
+        public static void SendGoogle(string recipient, string client, string subject, string body)
         {
             if (recipient == null)
             {
@@ -74,7 +74,7 @@ namespace EmailSenderLib
 
             try
             {
-                var emailSender = new MailAddress(HideData.AdminGoogleEmail, "Admin");
+                var emailSender = new MailAddress(HideData.AdminGoogleEmail, Constants.SenderName);
                 var emailRecipient = new MailAddress(recipient);
                 var emailMessage = new MailMessage(emailSender, emailRecipient)
                 {
@@ -82,18 +82,16 @@ namespace EmailSenderLib
                     Body = body,
                     IsBodyHtml = true
                 };
-                var smtp = new SmtpClient(client, 465)
+                var smtp = new SmtpClient(client,587)
                 {
                     Credentials = new NetworkCredential(HideData.AdminGoogleEmail, HideData.AdminGooglePassword),
                     EnableSsl = true
                 };
                 smtp.Send(emailMessage);
-                var response = "Письмо отправлено";
-                return response;
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                throw new Exception(ex.ToString());
             }
         }
     }
